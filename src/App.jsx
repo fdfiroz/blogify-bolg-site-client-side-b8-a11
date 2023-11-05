@@ -1,10 +1,12 @@
 import { Outlet } from "react-router-dom"
+import Mainlayout from "./layout/Mainlayout"
 
 const App = () => {
   return (
     <>
-    <div> Nav</div>
+      <Mainlayout>
       <Outlet />
+      </Mainlayout>
     
     </>
   )
