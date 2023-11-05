@@ -9,9 +9,11 @@ import PropTypes from 'prop-types'
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.svg";
+import useAuth from "../hooks/useAuth";
 
 
 const Mainlayout = ({ children }) => {
+    const { user, logOut } = useAuth();
     const [openNav, setOpenNav] = useState(false);
 
     useEffect(() => {
@@ -87,16 +89,22 @@ const Mainlayout = ({ children }) => {
                         alt="logo"
                     />
                     </Link>
-                    {/* <Typography
-                        as="a"
-                        href="#"
-                        className="mr-4 cursor-pointer py-1.5 font-medium"
-                    >
-                        Blogify
-                    </Typography> */}
                     <div className="flex items-center gap-4">
                         <div className="mr-4 hidden lg:block">{navList}</div>
-                        <div className="flex items-center gap-x-1">
+                        {
+                            user?.email ? (
+                            <div className="flex items-center">
+                                <Button
+                                variant="gradient"
+                                size="sm"
+                                className="hidden lg:inline-block"
+                                onClick={logOut}
+                            >
+                                <span>Logout</span>
+                            </Button>
+                            </div>
+                                ):(
+                                    <div className="flex items-center gap-x-1">
                             <Link to={"/login"}>
                             <Button
                                 variant="text"
@@ -116,6 +124,8 @@ const Mainlayout = ({ children }) => {
                             </Button>
                             </Link>
                         </div>
+                                )
+                        }
                         <IconButton
                             variant="text"
                             className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -157,14 +167,25 @@ const Mainlayout = ({ children }) => {
                 </div>
                 <Collapse open={openNav}>
                     {navList}
-                    <div className="flex items-center gap-x-1">
+                    {
+                        user?.email ? (
+                            <div className="flex items-center">
+                                <Button fullWidth variant="gradient" size="sm" className="" onClick={logOut}>
+                            <span>Logout</span>
+                        </Button>
+                            </div>
+                        )
+                        :(
+                        <div className="flex items-center gap-x-1">
                         <Button fullWidth variant="text" size="sm" className="">
                             <span>Log In</span>
                         </Button>
                         <Button fullWidth variant="gradient" size="sm" className="">
-                            <span>Sign in</span>
+                            <span>Register</span>
                         </Button>
                     </div>
+                        )
+                    }
                 </Collapse>
             </Navbar>
             <div className="mx-auto max-w-screen-xl py-12">
