@@ -9,6 +9,7 @@ import FeaturedBlogs from '../pages/FeaturedBlogs';
 import Wishlist from '../pages/Wishlist';
 import BlogDetails from '../pages/BlogDetails';
 import UpdateBlog from '../pages/UpdateBlog';
+import PrivateRoute from './PrivateRoute';
 
 
 const routes = createBrowserRouter([
@@ -22,7 +23,7 @@ const routes = createBrowserRouter([
       },
       {
         path: 'add-blog',
-        element: <AddBlog />,
+        element: <PrivateRoute><AddBlog /></PrivateRoute>,
       },
       {
         path: 'all-blogs',
@@ -30,19 +31,19 @@ const routes = createBrowserRouter([
       },
       {
         path: 'featured-blogs',
-        element: < FeaturedBlogs />,
+        element: <FeaturedBlogs />,
       },
       {
         path: 'wishlist',
-        element: <Wishlist />,
+        element: <PrivateRoute><Wishlist /></PrivateRoute>,
       },
       {
         path: 'blog-details/:id',
-        element: <BlogDetails/>
+        element: <PrivateRoute><BlogDetails /></PrivateRoute>,
       },
       {
         path: 'update-blog/:id',
-        element: <UpdateBlog/>
+        element: <PrivateRoute><UpdateBlog /></PrivateRoute>,
       }
 
     ],

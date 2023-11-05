@@ -192,6 +192,7 @@ const Mainlayout = ({ children }) => {
                 {children}
             </div>
         </div>
+        
     )
 }
 Mainlayout.propTypes = {

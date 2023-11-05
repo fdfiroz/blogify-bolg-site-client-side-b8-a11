@@ -7,8 +7,9 @@ const App = () => {
     <>
       <Mainlayout>
       <Outlet />
-      </Mainlayout>
       <Footer/>
+      </Mainlayout>
+      
     </>
   )
 }

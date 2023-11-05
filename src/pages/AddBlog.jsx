@@ -11,7 +11,8 @@ import {
 
 const AddBlog = () => {
   return (
-    <Card color="transparent" shadow={false} className="w-96 mx-auto">
+    <div className=" my-6">
+      <Card color="transparent" shadow={false} className="w-96 mx-auto">
     <Typography variant="h4" color="blue-gray">
       Add Blog
     </Typography>
@@ -84,6 +85,7 @@ const AddBlog = () => {
       </Button>
     </form>
   </Card>
+    </div>
   )
 }
 
