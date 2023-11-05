@@ -9,10 +9,43 @@ import {
 } from "@material-tailwind/react";
 import GoogleAuth from "../components/SocialAuth/GoogleAuth";
 import GithubAuth from "../components/SocialAuth/GithubAuth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 
 const Login = () => {
+    const {signIn} = useAuth()
+    const [email, setEmail] = useState('')
+    const [password, setPasword] = useState('')
+    const navigate = useNavigate()
+
+  const handelSubmit = async () =>{
+    
+    if (password.length < 6) {
+      toast.error("The password must be at least 6 characters long.");
+      return;
+    }
+    if (!/[A-Z]/.test(password)) {
+      toast.error("The password must contain at least one capital letter.");
+      return;
+    }
+    if (!/[!@#$%^&*()]/.test(password)) {
+      toast.error("The password must contain at least one special character.");
+      return;
+    }
+    const toastId = toast.loading('Logging in ...');
+
+    try {
+      await signIn(email, password);
+      toast.success('Logged in', { id: toastId });
+      navigate('/');
+    } catch (error) {
+      toast.error(error.message, { id: toastId });
+    }
+  }
+    
   return (
     <div className="h-screen w-full mx-auto">
      <div className="flex items-center justify-center justify-items-center md:py-10">
@@ -27,8 +60,8 @@ const Login = () => {
         </Typography>
       </CardHeader>
       <CardBody className="flex flex-col gap-4">
-        <Input label="Email" size="lg" required/>
-        <Input label="Password" size="lg" required/>
+        <Input label="Email" size="lg" type="email" required onBlur={(e)=>setEmail(e.target.value)}/>
+        <Input label="Password" size="lg" type="password" required onBlur={(e)=>setPasword(e.target.value)}/>
         <Typography
         variant="small"
         color="gray"
@@ -50,7 +83,7 @@ const Login = () => {
       </Typography>
       </CardBody>
       <CardFooter className="pt-0">
-        <Button variant="gradient" fullWidth>
+        <Button onSubmit={handelSubmit} type="submit" variant="gradient" fullWidth>
           Log In
         </Button>
         <div className="flex gap-2 justify-center flex-col-2 items-center mt-4">

@@ -9,10 +9,53 @@ import {
 } from "@material-tailwind/react";
 import GoogleAuth from "../components/SocialAuth/GoogleAuth";
 import GithubAuth from "../components/SocialAuth/GithubAuth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 
 const Register = () => {
+  const {createUser, handleUpdateProfile} = useAuth()
+  const [name, setName] = useState('')
+  const [photoURL, setPhotoURL] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const navigate = useNavigate()
+  const handelSubmit = async (e) =>{
+    e.preventDefault();
+
+    console.log(name, photoURL, email, password);
+    if (password.length < 8) {
+      toast.error("The password must be at least 6 characters long.");
+      return;
+    }
+    if (!/[A-Z]/.test(password)) {
+      toast.error("The password must contain at least one capital letter.");
+      return;
+    }
+    if (!/[!@#$%^&*()]/.test(password)) {
+      toast.error("The password must contain at least one special character.");
+      return;
+    }
+    const toastId = toast.loading('Creating user ...');
+    try {
+      await createUser(email, password);
+      await handleUpdateProfile(name, photoURL)
+      .then(() => {
+        toast.success('User Created', { id: toastId });
+        
+        navigate('/');
+      })
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message, { id: toastId });
+    }
+  }
+
+    
+  
+
   return (
     <div className="h-screen w-full mx-auto">
      <div className="flex items-center justify-center justify-items-center md:py-10">
@@ -27,10 +70,10 @@ const Register = () => {
         </Typography>
       </CardHeader>
       <CardBody className="flex flex-col gap-4">
-      <Input label="Name" size="lg" required/>
-      <Input label="Profile Image Link" size="lg" required/>
-        <Input label="Email" size="lg" required />
-        <Input label="Password" size="lg" required/>
+      <Input label="Name" size="lg" type="text" required onBlur={(e)=> setName(e.target.value)}/>
+      <Input label="Profile Image Link" size="lg" type="url" required onBlur={(e)=> setPhotoURL(e.target.value)}/>
+        <Input label="Email" type="email" size="lg" required onBlur={(e)=> setEmail(e.target.value)}/>
+        <Input label="Password" size="lg" type="password"  required onBlur={(e)=> setPassword(e.target.value)}/>
         <Typography
         variant="small"
         color="gray"
@@ -52,7 +95,7 @@ const Register = () => {
       </Typography>
       </CardBody>
       <CardFooter className="pt-0">
-        <Button variant="gradient" fullWidth>
+        <Button variant="gradient" type="submit" fullWidth onClick={handelSubmit}>
           Register
         </Button>
         <div className="flex gap-2 justify-center flex-col-2 items-center mt-4">

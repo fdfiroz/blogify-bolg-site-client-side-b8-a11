@@ -4,12 +4,12 @@ import { createContext, useEffect, useState } from "react";
 import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import app from "../config/firebase.config";
 import useAxios from "../hooks/useAxios";
-export const AuthContext = createContext(null);
+import toast from "react-hot-toast";
+export const AuthContext = createContext({});
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider()
 
 const auth = getAuth(app);
-
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -47,6 +47,7 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
+            console.log(currentUser);
             const userEmail = currentUser?.email || user?.email;
             const loggedUser = { email: userEmail };
             setUser(currentUser);
@@ -59,8 +60,8 @@ const AuthProvider = ({ children }) => {
             }
             else {
                 axios.post('/auth/logout', loggedUser)
-                    .then(res => {
-                        console.log(res.data);
+                    .then(() => {
+                        toast.error("Please login again")
                     })
             }
         });
@@ -79,7 +80,6 @@ const AuthProvider = ({ children }) => {
         handleUpdateProfile,
         logOut
     }
-
     return (
         <AuthContext.Provider value={authInfo}>
             {children}
