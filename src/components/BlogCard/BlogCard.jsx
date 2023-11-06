@@ -10,6 +10,7 @@ import {
     IconButton,
 } from "@material-tailwind/react";
 import { FaHeart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const BlogCard = ({blog}) => {
     const {_id, title, shortDescription, image, category} = blog;
@@ -43,7 +44,7 @@ const BlogCard = ({blog}) => {
                         <FaHeart className="fas fa-heart" />
                     </IconButton>
                 </div>
-                <a href="#" className="inline-block">
+                <Link to={`/blog-details/${_id}`} className="inline-block">
                     <Button size="sm" variant="text" className="flex items-center gap-2">
                         Learn More
                         <svg
@@ -61,7 +62,7 @@ const BlogCard = ({blog}) => {
                             />
                         </svg>
                     </Button>
-                </a>
+                </Link>
             </CardFooter>
         </Card>
     );
