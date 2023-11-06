@@ -10,6 +10,7 @@ import {
 
 
 const AddBlog = () => {
+  
   return (
     <div className=" my-6">
       <Card color="transparent" shadow={false} className="w-96 mx-auto">

@@ -4,7 +4,6 @@ import { createContext, useEffect, useState } from "react";
 import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import app from "../config/firebase.config";
 import useAxios from "../hooks/useAxios";
-import toast from "react-hot-toast";
 export const AuthContext = createContext({});
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider()
@@ -61,7 +60,6 @@ const AuthProvider = ({ children }) => {
             else {
                 axios.post('/auth/logout', loggedUser)
                     .then(() => {
-                        toast.error("Please login again")
                     })
             }
         });

@@ -1,5 +1,6 @@
 import axios from "axios";
 import useAuth from "./useAuth";
+import toast from "react-hot-toast";
 const instance = axios.create({
     baseURL: 'http://localhost:5000/api/v1',
     withCredentials : true,
@@ -17,7 +18,7 @@ const useAxios = () => {
     // Do something with response error
     console.log(error);
     if(error.response.status === '401' || error.response.status ==='403'){
-      
+      toast.error('Session Expired');
       logout();
     }
     return
