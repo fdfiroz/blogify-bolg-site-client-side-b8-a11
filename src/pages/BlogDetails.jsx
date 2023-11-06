@@ -53,7 +53,9 @@ const BlogDetails = () => {
   return (
     <>
       {
-        isLoading ? <Loading /> : (<Card className="w-full">
+        isLoading ? <Loading /> : (
+        
+        <Card className="w-full">
           <CardHeader className="mb-12 overflow-hidden">
             <img
               alt="nature"
@@ -120,7 +122,8 @@ const BlogDetails = () => {
             </div>
           </CardFooter>
 
-        </Card>)
+        </Card>
+        )
       }
     </>
   )

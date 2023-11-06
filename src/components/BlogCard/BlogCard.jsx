@@ -8,6 +8,7 @@ import {
     Chip,
     Button,
     IconButton,
+    Tooltip,
 } from "@material-tailwind/react";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -17,7 +18,7 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 
 const BlogCard = ({ blog }) => {
-    const { _id, title, shortDescription, image, category } = blog;
+    const { _id, title, image, shortDescription, category } = blog;
     const axios = useAxios();
     const { user } = useAuth()
     const { mutate } = useMutation({
@@ -38,6 +39,7 @@ const BlogCard = ({ blog }) => {
         const wishlist = {
             blog_id: _id,
             title,
+            shortDescription,
             image,
             category,
             user: user.email
@@ -76,9 +78,18 @@ const BlogCard = ({ blog }) => {
             </CardBody>
             <CardFooter className="flex items-center justify-between">
                 <div className="flex items-center -space-x-3">
-                    <IconButton onClick={handelWishlist} variant="gradient">
-                        <FaHeart className="fas fa-heart" />
-                    </IconButton>
+                    <Tooltip
+                        content="Add to Your Wishlist"
+                        animate={{
+                            mount: { scale: 1, y: 0 },
+                            unmount: { scale: 0, y: 25 },
+                        }}
+                    >
+                        <IconButton onClick={handelWishlist} variant="gradient">
+                            <FaHeart className="fas fa-heart" />
+                        </IconButton>
+                    </Tooltip>
+
                 </div>
                 <Link to={`/blog-details/${_id}`} className="inline-block">
                     <Button size="sm" variant="text" className="flex items-center gap-2">
