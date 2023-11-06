@@ -38,11 +38,6 @@ const BlogDetails = () => {
           <Typography>
             {data?.longDescription}
           </Typography>
-          <Typography>
-            The place is close to Barceloneta Beach and bus stop just 2 min by
-            walk and near to &quot;Naviglio&quot; where you can enjoy the main
-            night life in Barcelona.
-          </Typography>
         </CardBody>
         <CardFooter>
           {

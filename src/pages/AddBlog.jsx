@@ -7,10 +7,54 @@ import {
   Select,
   Textarea,
 } from "@material-tailwind/react";
-
-
+import { useMutation } from "@tanstack/react-query";
+import useAxios from "../hooks/useAxios"
+import useAuth from "../hooks/useAuth";
+import { useState } from "react";
+import toast from "react-hot-toast";
 const AddBlog = () => {
-  
+ const axios = useAxios();
+const {user} = useAuth()
+const [title, setTitle] = useState("")
+const [image, setImage] = useState("")
+const [category, setCategory] = useState("")
+const [shortDescription, setShortDescription] = useState("")
+const [longDescription, setLongDescription] = useState("")
+
+// console.log(title, image, category, shortDescription, longDescription);
+
+
+
+  const {mutate} = useMutation({
+    mutationKey:["addBlog"],
+    mutationFn: (blog) => {
+      return axios.post("/create-blog", blog)
+    }, 
+    onSuccess: () => {
+      toast.success("Blog added successfully")
+    }
+  })
+  const handelSubmit = (e) =>{
+    e.preventDefault()
+    
+    if(!title || !image || !category || !shortDescription || !longDescription ){
+      toast.error("Please fill all the fields")
+      return 
+    } 
+    
+  const blog ={
+    title,
+    image,
+    category,
+    shortDescription,
+    longDescription,
+    author: user?.displayName,
+    authorEmail:user?.email,
+    authorProfilePicture: user?.photoURL 
+  }
+    mutate(blog)
+    e.target.reset()
+  }
   return (
     <div className=" my-6">
       <Card color="transparent" shadow={false} className="w-96 mx-auto">
@@ -26,8 +70,10 @@ const AddBlog = () => {
         Blog Title
         </Typography>
         <Input
+          onBlur={(e)=> setTitle(e.target.value.trim())}
           size="lg"
           placeholder="Blog Title"
+          type="text"
           className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
           labelProps={{
             className: "before:content-none after:content-none",
@@ -37,7 +83,9 @@ const AddBlog = () => {
         Image URL
         </Typography>
         <Input
+          onBlur={(e)=> setImage(e.target.value.trim())}
           size="lg"
+          type="url"
           placeholder="Image URL"
           className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
           labelProps={{
@@ -47,17 +95,26 @@ const AddBlog = () => {
         <Typography variant="h6" color="blue-gray" className="-mb-3">
         Category
         </Typography>
-        <Select variant="outlined" label="Category">
-        <Option>Material Tailwind HTML</Option>
-        <Option>Material Tailwind React</Option>
-        <Option>Material Tailwind Vue</Option>
-        <Option>Material Tailwind Angular</Option>
-        <Option>Material Tailwind Svelte</Option>
-      </Select>
+        <Select
+          onChange={(value) => setCategory(value)}
+          variant="outlined"
+          label="Category"
+          
+        >
+          <Option value="html">HTML</Option>
+          <Option value="css">CSS</Option>
+          <Option value="javaScript">JavaScript</Option>
+          <Option value="react">React</Option>
+          <Option value="vue">Vue</Option>
+          <Option value="angular">Angular</Option>
+          <Option value="svelte">Svelte</Option>
+        </Select>
         <Typography variant="h6" color="blue-gray" className="-mb-3">
         Short Description 
         </Typography>
         <Input
+          type="text"
+          onBlur={(e)=> setShortDescription(e.target.value.trim())}
           size="lg"
           placeholder="Short Description"
           className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -69,8 +126,10 @@ const AddBlog = () => {
         Long Description 
         </Typography>
         <div className="w-96">
-      <Textarea           
+      <Textarea   
+        onBlur={(e)=> setLongDescription(e.target.value.trim())}        
         size="lg"
+        type="text"
         placeholder="Long Description"
         className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
         labelProps={{
@@ -81,7 +140,7 @@ const AddBlog = () => {
         
       </div>
       
-      <Button className="mt-6" fullWidth>
+      <Button onClick={handelSubmit} className="mt-6" fullWidth>
         Add Blog
       </Button>
     </form>
