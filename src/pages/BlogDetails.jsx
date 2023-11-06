@@ -106,7 +106,7 @@ const BlogDetails = () => {
               data.comments?.map((comment, index) => (
                 <Card key={index} className="flex flex-row items-center gap-6 p-4">
               <div>
-                <Avatar src={comment.commenterProfilePicture} alt="avatar" withBorder className="object-cover overflow-hidden" />
+                <Avatar src={comment.commenterProfilePicture} alt={comment.commenterName} withBorder className="object-cover overflow-hidden" />
                 <Typography variant="small">
                   {comment.commenterName}
                 </Typography>

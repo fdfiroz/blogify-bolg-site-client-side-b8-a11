@@ -11,11 +11,42 @@ import {
 } from "@material-tailwind/react";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useAxios from "../../hooks/useAxios";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import useAuth from "../../hooks/useAuth";
 
-const BlogCard = ({blog}) => {
-    const {_id, title, shortDescription, image, category} = blog;
+const BlogCard = ({ blog }) => {
+    const { _id, title, shortDescription, image, category } = blog;
+    const axios = useAxios();
+    const { user } = useAuth()
+    const { mutate } = useMutation({
+        mutationKey: ["wishlist"],
+        mutationFn: (wishlist) => {
+            return axios.post("/create-wishlist", wishlist)
+        },
+        onSuccess: () => {
+            toast.success("Wishlist added successfully")
+        }
+    })
+    const handelWishlist = () => {
+        if (!user) {
+            toast.error("Please login first")
+            return
+        }
+
+        const wishlist = {
+            blog_id: _id,
+            title,
+            image,
+            category,
+            user: user.email
+        }
+        mutate(wishlist)
+    }
+
     return (
-        <Card className="max-w-[24rem] overflow-hidden">
+        <Card className="max-w-[24rem] overflow-hidden justify-around ">
             <CardHeader
                 floated={false}
                 shadow={false}
@@ -31,16 +62,21 @@ const BlogCard = ({blog}) => {
                 <div className="flex mb-2">
                     <Chip variant="gradient" value={category} />
                 </div>
-                <Typography variant="h4" color="blue-gray">
+                {title.length > 38 ? (
+                    <Typography variant="h5" color="blue-gray" className="overflow-hidden">
+                        {title.slice(0, 37)}
+                    </Typography>
+                ) : (<Typography variant="h5" color="blue-gray" className="overflow-hidden">
                     {title}
-                </Typography>
+                </Typography>)
+                }
                 <Typography variant="lead" color="gray" className="mt-3 font-normal">
                     {shortDescription}
                 </Typography>
             </CardBody>
             <CardFooter className="flex items-center justify-between">
                 <div className="flex items-center -space-x-3">
-                    <IconButton variant="gradient">
+                    <IconButton onClick={handelWishlist} variant="gradient">
                         <FaHeart className="fas fa-heart" />
                     </IconButton>
                 </div>
