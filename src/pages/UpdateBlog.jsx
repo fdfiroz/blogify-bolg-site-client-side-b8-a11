@@ -7,9 +7,24 @@ import {
   Select,
   Textarea,
 } from "@material-tailwind/react";
+import { useQuery } from "@tanstack/react-query";
+import useAxios from "../hooks/useAxios";
+import { useParams } from "react-router-dom";
 
 
 const UpdateBlog = () => {
+  const param = useParams()
+  const id = param.id;
+
+  const axios = useAxios()
+  const { isLoading, data } = useQuery({
+    queryKey: ['blogs'],
+    queryFn: async () =>{
+      const res = await axios.get(`/blog/${id}`)
+      return res.data
+  }})
+
+  console.log(data)
   return (
     <Card color="transparent" shadow={false} className="w-96 mx-auto">
     <Typography variant="h4" color="blue-gray">
@@ -24,6 +39,7 @@ const UpdateBlog = () => {
         Blog Title
         </Typography>
         <Input
+        defaultValue={data?.title}
           size="lg"
           placeholder="Blog Title"
           className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -35,6 +51,7 @@ const UpdateBlog = () => {
         Image URL
         </Typography>
         <Input
+        defaultValue={data?.image}
           size="lg"
           placeholder="Image URL"
           className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -45,17 +62,24 @@ const UpdateBlog = () => {
         <Typography variant="h6" color="blue-gray" className="-mb-3">
         Category
         </Typography>
-        <Select variant="outlined" label="Category">
-        <Option>Material Tailwind HTML</Option>
-        <Option>Material Tailwind React</Option>
-        <Option>Material Tailwind Vue</Option>
-        <Option>Material Tailwind Angular</Option>
-        <Option>Material Tailwind Svelte</Option>
+        <Select 
+        variant="outlined" 
+        defaultValue={data?.category} 
+        name="category"
+        label="Category">
+        <Option value="html">HTML</Option>
+          <Option value="css">CSS</Option>
+          <Option value="javaScript">JavaScript</Option>
+          <Option value="react">React</Option>
+          <Option value="vue">Vue</Option>
+          <Option value="angular">Angular</Option>
+          <Option value="svelte">Svelte</Option>
       </Select>
         <Typography variant="h6" color="blue-gray" className="-mb-3">
         Short Description 
         </Typography>
         <Input
+        defaultValue={data?.shortDescription}
           size="lg"
           placeholder="Short Description"
           className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -67,7 +91,8 @@ const UpdateBlog = () => {
         Long Description 
         </Typography>
         <div className="w-96">
-      <Textarea           
+      <Textarea  
+        defaultValue={data?.longDescription}         
         size="lg"
         placeholder="Long Description"
         className=" !border-t-blue-gray-200 focus:!border-t-gray-900"

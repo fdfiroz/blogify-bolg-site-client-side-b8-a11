@@ -20,7 +20,7 @@ const Wishlist = () => {
     <div>
       {
         isLoading ? <Loading/> : (
-          <div className="grid grid-cols-1 justify-items-center gap-6 mb-6 ">
+          <div className="grid grid-cols-1 justify-items-center gap-6 mb-6 px-6">
         {
           data.map((wishlist) => (
             <WishListCard key={wishlist._id} wishlist={wishlist}></WishListCard>

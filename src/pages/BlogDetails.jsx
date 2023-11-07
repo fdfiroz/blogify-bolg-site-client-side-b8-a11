@@ -46,7 +46,7 @@ const BlogDetails = () => {
 
     }
     mutate(commentData)
-    e.target.reset()
+    
   }
 
   console.log(data?.comments, data, user);
@@ -94,26 +94,27 @@ const BlogDetails = () => {
                     </IconButton>
                   </div>
                 ) : (
-                  <form className="flex gap-4">
+                  <div className="flex gap-4">
                     <Input onBlur={(e) => setComment(e.target.value)} name="comment" label="Comment" />
-                    <IconButton onClick={handelSubimt} className="rounded-full">
+                    <IconButton type="button" onClick={handelSubimt} className="rounded-full">
                       <FaAngleRight ></FaAngleRight>
                     </IconButton>
-                  </form>
+                  </div>
                 )
               }
             </div>
+            
             <div className="flex flex-col gap-6 my-4 ">
             {
               data.comments?.map((comment, index) => (
                 <Card key={index} className="flex flex-row items-center gap-6 p-4">
-              <div>
+              <div className="flex flex-col items-center gap-2">
                 <Avatar src={comment.commenterProfilePicture} alt={comment.commenterName} withBorder className="object-cover overflow-hidden" />
                 <Typography variant="small">
                   {comment.commenterName}
                 </Typography>
               </div>
-              <Typography>
+              <Typography variant="h5">
                 {comment.commentText}
               </Typography>
             </Card>
@@ -121,7 +122,6 @@ const BlogDetails = () => {
             }
             </div>
           </CardFooter>
-
         </Card>
         )
       }

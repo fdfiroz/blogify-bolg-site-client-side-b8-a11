@@ -10,13 +10,19 @@ import Wishlist from '../pages/Wishlist';
 import BlogDetails from '../pages/BlogDetails';
 import UpdateBlog from '../pages/UpdateBlog';
 import PrivateRoute from './PrivateRoute';
+import ErrorPage from '../pages/ErrorPage';
 
 
 const routes = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <ErrorPage/>,
     children: [
+      {
+        path: "*",
+        element:<ErrorPage/>,
+      },
       {
         index: true,
         element: <Home />,
