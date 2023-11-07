@@ -1,9 +1,19 @@
+import ContactSection from "../components/ContactSection/ContactSection"
 import Header from "../components/Header/Header"
+import HomeCardSection from "../components/HomeCardSection/HomeCardSection"
+import Newsletter from "../components/Newsletter/Newsletter"
+import Stats from "../components/Stats/Stats"
 
 const Home = () => {
   return (
     <>
       <Header/>
+      
+      <Stats/>
+      <HomeCardSection/>
+      
+      <ContactSection/>
+      <Newsletter/>
     </>
   )
 }

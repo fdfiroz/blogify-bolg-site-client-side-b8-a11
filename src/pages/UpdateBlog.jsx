@@ -7,24 +7,68 @@ import {
   Select,
   Textarea,
 } from "@material-tailwind/react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxios from "../hooks/useAxios";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import useAuth from "../hooks/useAuth";
 
 
 const UpdateBlog = () => {
   const param = useParams()
-  const id = param.id;
+  const {user} = useAuth()
 
+  const id = param.id;
+  const [title, setTitle] = useState("")
+const [image, setImage] = useState("")
+const [category, setCategory] = useState("")
+const [shortDescription, setShortDescription] = useState("")
+const [longDescription, setLongDescription] = useState("")
+ 
   const axios = useAxios()
-  const { isLoading, data } = useQuery({
+  const { data } = useQuery({
     queryKey: ['blogs'],
     queryFn: async () =>{
       const res = await axios.get(`/blog/${id}`)
       return res.data
   }})
 
-  console.log(data)
+  const queryClient = useQueryClient()
+
+  const {mutate} = useMutation({
+    mutationKey:["updateBlog"],
+    mutationFn: (blog) => {
+      return axios.patch(`/blog/${id}`, blog)
+    }, 
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['recent-blogs', 'blogs'] })
+      toast.success("Blog added successfully")
+    }
+
+  })
+  const handelSubmit = (e) =>{
+    e.preventDefault()
+    console.log(title, image, category, shortDescription, longDescription)
+    if(!title || !image || !category || !shortDescription || !longDescription ){
+      toast.error("Please fill all the fields")
+      return 
+    } 
+    
+  const blog ={
+    title,
+    image,
+    category,
+    shortDescription,
+    longDescription,
+    author: user?.displayName,
+    authorEmail:user?.email,
+    authorProfilePicture: user?.photoURL 
+  }
+    mutate(blog)
+    e.target.reset()
+  }
+
   return (
     <Card color="transparent" shadow={false} className="w-96 mx-auto">
     <Typography variant="h4" color="blue-gray">
@@ -39,6 +83,7 @@ const UpdateBlog = () => {
         Blog Title
         </Typography>
         <Input
+        onBlur={(e) => setTitle(e.target.value)}
         defaultValue={data?.title}
           size="lg"
           placeholder="Blog Title"
@@ -51,6 +96,7 @@ const UpdateBlog = () => {
         Image URL
         </Typography>
         <Input
+        onBlur={(e) => setImage(e.target.value)}
         defaultValue={data?.image}
           size="lg"
           placeholder="Image URL"
@@ -62,23 +108,25 @@ const UpdateBlog = () => {
         <Typography variant="h6" color="blue-gray" className="-mb-3">
         Category
         </Typography>
-        <Select 
-        variant="outlined" 
-        defaultValue={data?.category} 
-        name="category"
-        label="Category">
-        <Option value="html">HTML</Option>
+        <Select
+          onChange={(value) => setCategory(value)}
+          variant="outlined"
+          label="Category"
+          
+        >
+          <Option value="html">HTML</Option>
           <Option value="css">CSS</Option>
           <Option value="javaScript">JavaScript</Option>
           <Option value="react">React</Option>
           <Option value="vue">Vue</Option>
           <Option value="angular">Angular</Option>
           <Option value="svelte">Svelte</Option>
-      </Select>
+        </Select>
         <Typography variant="h6" color="blue-gray" className="-mb-3">
         Short Description 
         </Typography>
         <Input
+        onBlur={(e) => setShortDescription(e.target.value)}
         defaultValue={data?.shortDescription}
           size="lg"
           placeholder="Short Description"
@@ -92,6 +140,7 @@ const UpdateBlog = () => {
         </Typography>
         <div className="w-96">
       <Textarea  
+      onBlur={(e) => setLongDescription(e.target.value)}
         defaultValue={data?.longDescription}         
         size="lg"
         placeholder="Long Description"
@@ -104,7 +153,7 @@ const UpdateBlog = () => {
         
       </div>
       
-      <Button className="mt-6" fullWidth>
+      <Button onClick={handelSubmit} className="mt-6" fullWidth>
         Update Blog
       </Button>
     </form>

@@ -14,7 +14,6 @@ const Wishlist = () => {
       const res = await axios.get(`/wishlists?user=${user.email}`)
       return res.data
   }})
-  console.log(data)
   return (
     <>
     <div>

@@ -7,7 +7,7 @@ import {
   Select,
   Textarea,
 } from "@material-tailwind/react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxios from "../hooks/useAxios"
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
@@ -24,6 +24,7 @@ const [longDescription, setLongDescription] = useState("")
 // console.log(title, image, category, shortDescription, longDescription);
 
 
+const queryClient = useQueryClient()
 
   const {mutate} = useMutation({
     mutationKey:["addBlog"],
@@ -32,7 +33,9 @@ const [longDescription, setLongDescription] = useState("")
     }, 
     onSuccess: () => {
       toast.success("Blog added successfully")
+      queryClient.invalidateQueries({ queryKey: ['recent-blogs', 'blogs'] })
     }
+
   })
   const handelSubmit = (e) =>{
     e.preventDefault()
