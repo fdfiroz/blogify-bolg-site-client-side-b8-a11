@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import GoogleAuth from "../components/SocialAuth/GoogleAuth";
 import GithubAuth from "../components/SocialAuth/GithubAuth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -20,7 +20,8 @@ const Login = () => {
     const {signIn} = useAuth()
     const [email, setEmail] = useState('')
     const [password, setPasword] = useState('')
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const location = useLocation();
 
   const handelSubmit = async () =>{
     
@@ -41,7 +42,7 @@ const Login = () => {
     try {
       await signIn(email, password);
       toast.success('Logged in', { id: toastId });
-      navigate('/');
+      navigate(location.state? location.state: '/');
     } catch (error) {
       toast.error(error.message, { id: toastId });
     }

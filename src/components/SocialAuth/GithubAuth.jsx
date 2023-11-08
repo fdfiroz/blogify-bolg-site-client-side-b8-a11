@@ -1,19 +1,20 @@
 import { IconButton } from '@material-tailwind/react'
 import { FaGithub } from 'react-icons/fa'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 
 const GithubAuth = () => {
   const { githubLogin } = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const location = useLocation();
   const handleGithubLogin = async () => {
     const toastId = toast.loading('Logging in ...');
 
     try {
       await githubLogin();
       toast.success('Logged in', { id: toastId });
-      navigate('/');
+      navigate(location.state? location.state: '/')
     } catch (error) {
       toast.error(error.message, { id: toastId });
     }

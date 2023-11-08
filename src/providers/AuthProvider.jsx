@@ -13,6 +13,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const axios = useAxios();
+    
     const createUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
@@ -35,7 +36,7 @@ const AuthProvider = ({ children }) => {
         setLoading(true)
         return signInWithPopup(auth, githubProvider);
     }
-    const handleUpdateProfile = (name, photo = "/avater.png", phone = null ) => {
+    const handleUpdateProfile = (name, photo, phone = null ) => {
         return updateProfile(auth.currentUser, {
             displayName: name, 
             photoURL: photo,
@@ -55,6 +56,7 @@ const AuthProvider = ({ children }) => {
                 axios.post('/auth/access-token', loggedUser)
                     .then(res => {
                         console.log('token response', res.data);
+                        
                     })
             }
             else {

@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import GoogleAuth from "../components/SocialAuth/GoogleAuth";
 import GithubAuth from "../components/SocialAuth/GithubAuth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -17,12 +17,16 @@ import { Helmet } from "react-helmet-async";
 
 
 const Register = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const {createUser, handleUpdateProfile} = useAuth()
   const [name, setName] = useState('')
   const [photoURL, setPhotoURL] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const navigate = useNavigate()
+
+  
+
   const handelSubmit = async (e) =>{
     e.preventDefault();
 
@@ -46,7 +50,7 @@ const Register = () => {
       .then(() => {
         toast.success('User Created', { id: toastId });
         
-        navigate('/');
+        navigate(location.state? location.state: '/');
       })
     } catch (error) {
       console.log(error);

@@ -2,18 +2,20 @@ import { IconButton } from '@material-tailwind/react'
 import { FaGoogle } from 'react-icons/fa'
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const GoogleAuth = () => {
   const { googleLogin } = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+    const location = useLocation();
+  
   const handleGoogleLogin = async () => {
     const toastId = toast.loading('Logging in ...');
 
     try {
       await googleLogin();
       toast.success('Logged in', { id: toastId });
-      navigate('/');
+      navigate(location.state? location.state: '/')
     } catch (error) {
       toast.error(error.message, { id: toastId });
     }
