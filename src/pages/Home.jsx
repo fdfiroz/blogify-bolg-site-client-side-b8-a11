@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async"
 import ContactSection from "../components/ContactSection/ContactSection"
 import Header from "../components/Header/Header"
 import HomeCardSection from "../components/HomeCardSection/HomeCardSection"
@@ -7,6 +8,9 @@ import Stats from "../components/Stats/Stats"
 const Home = () => {
   return (
     <>
+    <Helmet>
+      <title>Blogify || Home</title>
+    </Helmet>
       <Header/>
       
       <Stats/>

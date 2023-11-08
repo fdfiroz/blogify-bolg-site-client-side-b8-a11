@@ -12,6 +12,7 @@ import useAxios from "../hooks/useAxios"
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 const AddBlog = () => {
  const axios = useAxios();
 const {user} = useAuth()
@@ -59,6 +60,10 @@ const queryClient = useQueryClient()
     e.target.reset()
   }
   return (
+    <>
+    <Helmet>
+      <title>Add Blog</title>
+    </Helmet>
     <div className=" my-6">
       <Card color="transparent" shadow={false} className="w-96 mx-auto">
     <Typography variant="h4" color="blue-gray">
@@ -149,6 +154,7 @@ const queryClient = useQueryClient()
     </form>
   </Card>
     </div>
+    </>
   )
 }
 

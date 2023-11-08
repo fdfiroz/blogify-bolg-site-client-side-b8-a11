@@ -3,6 +3,7 @@ import useAxios from "../hooks/useAxios"
 import DataTable from "react-data-table-component"
 import { Avatar } from "@material-tailwind/react";
 import Loading from "../components/Loading/Loading";
+import { Helmet } from "react-helmet-async";
 
 const FeaturedBlogs = () => {
   const axios = useAxios()
@@ -40,6 +41,9 @@ const FeaturedBlogs = () => {
 
   return (
     <>
+    <Helmet>
+      <title>Featured Blogs</title>
+    </Helmet>
     <div className="my-6">
     {
       isLoading ? <Loading /> : (<DataTable

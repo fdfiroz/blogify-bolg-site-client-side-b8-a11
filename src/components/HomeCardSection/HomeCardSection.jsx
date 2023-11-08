@@ -6,11 +6,11 @@ import { Typography } from "@material-tailwind/react"
 const HomeCardSection = () => {
     const axios = useAxios()
 
-    const {data, isLoading} = useQuery({
+    const {data, isSuccess} = useQuery({
         queryKey : ["recent-blogs"],
         queryFn : async () => {
             const response = await axios.get("/blogs?sortField=dateCreated&sortOrder=desc")
-            return response.data.slice(0, 6)
+            return response.data?.slice(0, 6)
         }
     })
   return (
@@ -20,8 +20,9 @@ const HomeCardSection = () => {
         </Typography>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
         {
-            data?.map((blog) => (
-                <HomeCard key={blog._id} blog={blog}/>))
+           isSuccess && data?.map((blog) => (
+                <HomeCard key={blog._id} blog={blog} />
+            ))
         }
     </div>
     </div>

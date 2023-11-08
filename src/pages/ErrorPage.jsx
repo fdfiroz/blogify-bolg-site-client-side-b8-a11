@@ -1,7 +1,12 @@
+import { Helmet } from "react-helmet-async"
 import { Link } from "react-router-dom"
 
 const ErrorPage = () => {
   return (
+   <>
+   <Helmet>
+        <title>Blogify || 404 Error</title>
+   </Helmet>
     <div>
             <div className="max-w-screen-xl mx-auto px-4 flex items-center justify-start h-screen md:px-8">
                 <div className="max-w-lg mx-auto flex-1 flex-row-reverse gap-12 items-center justify-between md:max-w-none md:flex">
@@ -27,7 +32,7 @@ const ErrorPage = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div></>
   )
 }
 

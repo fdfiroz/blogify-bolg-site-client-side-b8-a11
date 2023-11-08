@@ -13,6 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 
 const Register = () => {
@@ -57,6 +58,10 @@ const Register = () => {
   
 
   return (
+    <>
+    <Helmet>
+      <title>Blogify Register</title>
+    </Helmet>
     <div className="h-screen w-full mx-auto">
      <div className="flex items-center justify-center justify-items-center md:py-10">
      <Card className="w-96 mx-auto pt-10 container">
@@ -121,6 +126,7 @@ const Register = () => {
     </Card>
      </div>
     </div>
+    </>
   )
 }
 

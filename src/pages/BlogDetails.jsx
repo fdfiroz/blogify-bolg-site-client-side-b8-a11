@@ -7,6 +7,7 @@ import { FaAngleRight } from "react-icons/fa";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Loading from "../components/Loading/Loading";
+import { Helmet } from "react-helmet-async";
 const BlogDetails = () => {
   const param = useParams()
   const axios = useAxios()
@@ -52,6 +53,9 @@ const BlogDetails = () => {
   console.log(data?.comments, data, user);
   return (
     <>
+    <Helmet>
+      <title>{data?.title}</title>
+    </Helmet>
       {
         isLoading ? <Loading /> : (
         

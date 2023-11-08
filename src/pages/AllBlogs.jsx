@@ -5,6 +5,7 @@ import Loading from "../components/Loading/Loading"
 import { Card, Input, Option, Select } from "@material-tailwind/react"
 import { FaSearch } from "react-icons/fa"
 import { useState } from "react"
+import { Helmet } from "react-helmet-async"
 const AllBlogs = () => {
   const axios = useAxios()
   const [search, setSearch] = useState("")
@@ -20,6 +21,9 @@ const AllBlogs = () => {
   console.log(data)
   return (
     <>
+    <Helmet>
+      <title>All Blogs</title>
+    </Helmet>
     <div className="w-full mx-auto">
       <Card className="flex flex-col md:flex-row gap-10 justify-around items-center my-4 border  p-6">
         <form className="w-full">

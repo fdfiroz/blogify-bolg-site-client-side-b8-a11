@@ -2,7 +2,7 @@ import axios from "axios";
 import useAuth from "./useAuth";
 import toast from "react-hot-toast";
 const instance = axios.create({
-    baseURL: 'http://localhost:5000/api/v1',
+    baseURL: 'https://b8a11-server-side-fdfiroz.vercel.app/api/v1',
     withCredentials : true,
     
   });
@@ -17,8 +17,8 @@ const useAxios = () => {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     console.log(error);
-    if(error.response.status === '401' || error.response.status ==='403'){
-      toast.error('Session Expired');
+    if(error?.response?.status === '401' || error?.response?.status ==='403'){
+      toast.error('Unauthorized');
       logout();
     }
     return
