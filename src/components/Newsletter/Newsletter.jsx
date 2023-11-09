@@ -6,8 +6,15 @@ const Newsletter = () => {
     const [email, setEmail] = useState("")
     const handelSubmit = (e) => {
         e.preventDefault();
-        toast.success(`${email} subscribed successfully`)
-        setEmail("")
+        if (!email) {
+            return toast.error("Please enter your email");
+        }
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            return toast.error("Please enter a valid email");
+        }
+        toast.success(`${email} subscribed successfully`);
+        setEmail("");
+        
     };
   return (
     <section className="py-14">
@@ -27,7 +34,7 @@ const Newsletter = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                     </svg>
                     <input
-                        onBlur={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                         type="email"
                         required
                         placeholder="Enter your email"

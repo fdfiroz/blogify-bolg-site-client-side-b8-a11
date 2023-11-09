@@ -4,6 +4,7 @@ import {
     Button,
     IconButton,
     Collapse,
+    Avatar,
 } from "@material-tailwind/react";
 import PropTypes from 'prop-types'
 import { useEffect, useState } from "react";
@@ -93,7 +94,8 @@ const Mainlayout = ({ children }) => {
                         <div className="mr-4 hidden lg:block">{navList}</div>
                         {
                             user?.email ? (
-                            <div className="flex items-center">
+                            <div className="flex items-center gap-6 ">
+                                <Avatar src={user.photoURL} alt="avatar" />
                                 <Button
                                 variant="gradient"
                                 size="sm"
@@ -177,12 +179,17 @@ const Mainlayout = ({ children }) => {
                         )
                         :(
                         <div className="flex items-center gap-x-1">
-                        <Button fullWidth variant="text" size="sm" className="">
+                            <Button fullWidth variant="text" size="sm" className="">
+                            <Link to={"/login"}>
                             <span>Log In</span>
+                            </Link>
                         </Button>
                         <Button fullWidth variant="gradient" size="sm" className="">
+                        <Link to={"/register"}>
                             <span>Register</span>
+                        </Link>
                         </Button>
+                        
                     </div>
                         )
                     }

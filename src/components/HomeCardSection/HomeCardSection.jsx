@@ -15,7 +15,7 @@ const HomeCardSection = () => {
     })
   return (
     <div>
-        <Typography variant="h2" className="my-6 ">
+        <Typography variant="h2" className="my-6 px-10 ">
             Recent Blogs
         </Typography>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
