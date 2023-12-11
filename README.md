@@ -1,5 +1,4 @@
-# Assignment_ID: assignment_category_0006
-- Project Name Blogify Bolg Site
+#Project Name Blogify Bolg Site
 - Live Link: https://blogify-fdfiroz-0006.web.app/
 - Language: HTML, CSS, Bootstrap, JavaScript, React, React Router, Firebase, Node.js, Express.js, MongoDB
 - About Project: 
